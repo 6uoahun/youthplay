@@ -94,7 +94,7 @@ const songs = [
     "id": 14,
     "artist": "LUCY",
     "title": "발아",
-    "lyric": "봐봐 앞으로 조금이야/내가 담은 끝없는 별이 터져 쏟아져 나와",
+    "lyric": "봐봐 앞으로 조금이야. 내가 담은 끝없는 별이 터져 쏟아져 나와",
     "youtubeUrl": "https://youtu.be/wVaQIjHzyW8?si=QX3wQ0zsO28AGnrT"
   },
   {
@@ -108,21 +108,21 @@ const songs = [
     "id": 16,
     "artist": "wave to earth",
     "title": "light",
-    "lyric": "You're always shining",
+    "lyric": "You are always shining",
     "youtubeUrl": "https://youtu.be/xt_IlpwNAFo?si=G4Mh_WGK_UQROx20"
   },
   {
     "id": 17,
     "artist": "wave to earth",
     "title": "사랑으로",
-    "lyric": "부서지고 굳어지고 녹아내리고 나면/그제서야 보이는 나의 영원",
+    "lyric": "부서지고 굳어지고 녹아내리고 나면. 그제서야 보이는 나의 영원",
     "youtubeUrl": "https://youtu.be/L7cAqBQVjYI?si=xFRv10W0LOTC-FW4"
   },
   {
     "id": 18,
     "artist": "Xdinary Heroes",
     "title": "꿈을 꾸는 소녀",
-    "lyric": "소중히 간직하길 바라요/그 꿈이 진짜가 될 때까지",
+    "lyric": "소중히 간직하길 바라요. 그 꿈이 진짜가 될 때까지",
     "youtubeUrl": "https://youtu.be/cT5H4doALFA?si=iOBAyCu0JX_Ss10l"
   },
   {
@@ -150,7 +150,7 @@ const songs = [
     "id": 22,
     "artist": "가호 (Gaho)",
     "title": "Running",
-    "lyric": "또 다시 뒤쳐지는 그런 날들에/반대로 나를 일으켜 달려 나가",
+    "lyric": "또 다시 뒤쳐지는 그런 날들에 반대로 나를 일으켜 달려 나가",
     "youtubeUrl": "https://youtu.be/FrOLeoXrvLU?si=BW4v3Cks3-RFoBBH"
   },
   {
@@ -164,7 +164,7 @@ const songs = [
     "id": 24,
     "artist": "검정치마",
     "title": "everything",
-    "lyric": "넌 내 모든 거야/내 여름이고 내 꿈이야",
+    "lyric": "넌 내 모든 거야. 내 여름이고 내 꿈이야",
     "youtubeUrl": "https://youtu.be/Aq_gsctWHtQ?si=WFZ3dLLNrVo7IlYy"
   },
   {
@@ -340,7 +340,7 @@ const songs = [
     "artist": "아이유",
     "title": "에잇",
     "lyric": "우울한 결말 따위는 없어",
-    "youtubeUrl": "https://youtu.be/Cxzzg7L3Xgc?si=h9mMpoGhlrpYbq8l"
+    "youtubeUrl": "https://youtu.be/JtFI8dtPvxI?si=m9WJKrfkn4wTh_kz"
   },
   {
     "id": 50,
@@ -484,7 +484,7 @@ const songs = [
   },
   {
     "id": 70,
-    "artist": "투모로우바이투게더",
+    "artist": "투어스(TWS)",
     "title": "hey! hey!",
     "lyric": "아무도 모르는 내일로 어느새 속도를 내 뛰고 있어",
     "youtubeUrl": "https://youtu.be/I4Trrq2iX4I?si=LH-c59PefnozuXRH"
@@ -500,7 +500,7 @@ const songs = [
     "id": 72,
     "artist": "투어스(TWS)",
     "title": "너의 이름(Highlight)",
-    "lyric": "너는 말야 내 청춘의 Highligh",
+    "lyric": "너는 말야 내 청춘의 Highlight",
     "youtubeUrl": "https://youtu.be/mmVHP8y1Gvc?si=eh153UE3C5FW429p"
   },
   {
@@ -578,7 +578,7 @@ const songs = [
 const state = { remaining: [...songs], picked: [], busy:false };
 
 const $ = id => document.getElementById(id);
-const pickBtn = $('pickBtn'), againBtn = $('againBtn'), homeBtn = $('homeBtn');
+const pickBtn = $('pickBtn'), againBtn = $('againBtn'), homeBtn = $('homeBtn'), loadingView = $('loadingView');
 
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -643,6 +643,7 @@ function buildTop10(selected){
 
 function showResult(song){
   $('startView').style.display='none';
+  loadingView.classList.remove('show');
   $('resultView').classList.add('show');
   $('resultTitle').innerHTML=mixedFontText(song.title);
   $('resultArtist').innerHTML=mixedFontText(song.artist);
@@ -664,6 +665,7 @@ function showResult(song){
 }
 function resetRound(){
   state.remaining=[...songs];
+  loadingView.classList.remove('show');
   state.picked=[];
   $('resultView').classList.remove('show');
   $('startView').style.display='block';
@@ -679,48 +681,42 @@ function chooseSong(){
 
   setBusy(true);
 
-  // 결과 화면을 숨기고 로딩 화면으로 전환
+  // 시작 화면을 숨기고 결과 화면 전에 로딩 화면을 보여줍니다.
   $('startView').style.display='none';
   $('resultView').classList.remove('show');
-  $('loadingView').classList.add('show');
+  loadingView.classList.add('show');
 
-  // 여러 곡의 제목이 빠르게 지나가는 룰렛 연출
-  const preview = shuffleArray(state.remaining).slice(0, Math.min(10, state.remaining.length));
+  // 로딩 중에는 곡 제목이 빠르게 지나가는 랜덤 연출을 유지합니다.
+  const preview = shuffleArray(state.remaining).slice(0, Math.min(8, state.remaining.length));
   let i = 0;
 
   const interval = setInterval(()=>{
     const s = preview[i % preview.length];
-    $('loadingSong').textContent = s.title;
+    $('resultTitle').textContent = s.title;
+    $('resultArtist').textContent = s.artist;
     i++;
-  }, 120);
+  }, 90);
 
   setTimeout(()=>{
     clearInterval(interval);
 
-    // 실제 결과는 남아 있는 곡 중 하나를 확정
+    // 남아 있는 곡 중 하나를 실제 결과로 확정합니다.
     const index = Math.floor(Math.random() * state.remaining.length);
     const song = state.remaining.splice(index, 1)[0];
     state.picked.unshift(song);
 
-    // 마지막 선택곡을 잠깐 보여준 뒤 결과 화면으로 전환
-    $('loadingSong').textContent = song.title;
-
-    setTimeout(()=>{
-      $('loadingView').classList.remove('show');
-      showResult(song);
-      setBusy(false);
-    }, 380);
-  }, 1700);
+    showResult(song);
+    setBusy(false);
+  }, 1200);
 }
-
 pickBtn.addEventListener('click', chooseSong);
-homeBtn.addEventListener('click', ()=>{
-  if(state.busy) return;
-  resetRound();
-});
-
 againBtn.addEventListener('click', ()=>{
   if(state.remaining.length===0){
     if(confirm('82곡을 모두 뽑았어요. 처음부터 다시 시작할까요?')) resetRound();
   }else chooseSong();
+});
+
+homeBtn.addEventListener('click', ()=>{
+  if(state.busy) return;
+  resetRound();
 });

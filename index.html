@@ -12,27 +12,24 @@
 <body>
 <main class="app">
   <header class="hero">
-    <div class="eyebrow">YOUTH DAY PLAYLIST</div>
-    <h1>빛나는 청춘을 위한 <span class="latin">PLAYLIST</span></h1>
+    <div class="eyebrow">청년의날 YOUTH DAY</div>
+    <h1><span class="latin">YOUTH, ON REPEAT</span></h1>
     <p class="hero-sub">지금, 출발합니다</p>
   </header>
 
   <section class="card">
     <div id="startView" class="center">
       <div class="music-orb">♪</div>
-      <div class="section-label">TODAY'S SONG</div>
-      <div class="prompt start-prompt">YOUTH, ON REPEAT</div>
+      <div class="section-label">Today's Song</div>
+      <div class="prompt start-prompt">빛나는 청춘을 위한 PLAYLIST</div>
       <p class="desc">지금의 나를 위한 청춘의 노래를 뽑아보세요.</p>
       <div class="hint">어떤 노래가 나올까요?</div>
       <button id="pickBtn" class="pick">PICK</button>
     </div>
 
-    <div id="loadingView" class="center loading-view">
-      <div class="music-orb loading-orb">♪</div>
-      <div class="section-label">TODAY'S SONG</div>
+    <div id="loadingView" class="loading-view" aria-live="polite">
+      <div class="loading-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="loading-message">결과를 기다리고 있어요...</div>
-      <div id="loadingSong" class="loading-song">청춘의 노래를 찾는 중</div>
-      <div class="loading-dots"><span></span><span></span><span></span></div>
     </div>
 
     <div id="resultView" class="result">
@@ -41,8 +38,8 @@
       <div class="lyric"><span id="resultLyric"></span></div>
       <div id="embed" class="embed"></div>
       <div class="actions">
-        <button id="againBtn" class="action primary">↻ 다른 노래 뽑기</button>
-        <button id="homeBtn" class="action">⌂ 홈 돌아가기</button>
+        <button id="againBtn" class="action">↻ 다른 노래 뽑기</button>
+        <button id="homeBtn" class="action home">홈 돌아가기</button>
       </div>
       <p id="note" class="note">한 번 나온 노래는 다시 나오지 않아요.</p>
 
@@ -54,8 +51,10 @@
     <div class="paper-tape"></div>
     <div class="top10-header">
       <div class="paper-kicker">YOUTH DAY PLAYLIST</div>
-      <h2>오늘의 청춘을 응원하는 노래 10곡</h2>
-      <div class="paper-subtitle">오늘의 랜덤 추천곡</div>
+      <br></br>
+      <h2>오늘의 청춘을 응원하는 10곡</h2>
+      
+      <div class="paper-subtitle">~ 오늘의 랜덤 추천곡 ~</div>
     </div>
 
     <div class="receipt-meta">
