@@ -161,8 +161,13 @@ button{cursor:pointer} button:disabled{cursor:wait;opacity:.62}
 
   /* 가사 박스 스타일 */
   background:transparent;
-  border:1.5px dashed #3b3f55;
-  border-radius:14px;
+border: 0;
+background:
+  linear-gradient(90deg, #3b3f55 50%, transparent 50%) top / 12px 1.5px repeat-x,
+  linear-gradient(90deg, #3b3f55 50%, transparent 50%) bottom / 12px 1.5px repeat-x,
+  linear-gradient(0deg, #3b3f55 50%, transparent 50%) left / 1.5px 12px repeat-y,
+  linear-gradient(0deg, #3b3f55 50%, transparent 50%) right / 1.5px 12px repeat-y;
+border-radius: 14px;
 }
 .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .action{
